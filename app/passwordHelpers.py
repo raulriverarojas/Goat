@@ -5,13 +5,12 @@ class PasswordHelpers:
         'lowercase': r'[a-z]',
         'uppercase': r'[A-Z]',
         'number': r'\d',
-        'special_char': r'[ -\/:-`{-\xFF]'  # ASCII ranges: 32-47, 58-96, 123-255
+        'special_char': r'[ -\/:-@\[-`{-\xFF]'  # ASCII ranges: 32-47, 58-64, 91-96, 123-255
     }
     
     # Length requirement (8+ characters)
     valid_length = r'.{8,}'
     
-    # Ensure only valid characters are used
     
     @classmethod
     def is_valid_password(cls, password: str) -> bool:
