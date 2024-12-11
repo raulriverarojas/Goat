@@ -1,6 +1,8 @@
 from app import db
 from app import ph
 from app.passwordHelpers import PasswordHelpers
+from app.signals import user_created
+from app import db
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,3 +21,14 @@ class User(db.Model):
     
     def check_password(self, password):
         return ph.verify(self.password_hash, password)
+    
+    def save(self):
+         if self.id == None:
+            db.session.add(self)
+            user_created.send(self)
+         return db.session.commit()
+
+    def delete(self):
+        db_session.delete(self)
+        return db.session.commit()
+    

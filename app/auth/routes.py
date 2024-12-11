@@ -2,7 +2,7 @@ from flask import jsonify, request
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from app.auth import auth_bp
 from app.models import User
-from app import db
+from app.signals import user_created
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
@@ -13,9 +13,7 @@ def register():
     
     user = User(username=data['username'])
     if user.set_password(data['password']):
-        db.session.add(user)
-        db.session.commit()
-    
+        user.save()
         return jsonify({"msg": "User created successfully"}), 201
     return jsonify({"msg": "Invalid password"}), 400
 

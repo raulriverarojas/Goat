@@ -5,7 +5,9 @@ from flask_jwt_extended import JWTManager
 from datetime import timedelta
 from config import Config
 from argon2 import PasswordHasher
+from dotenv import load_dotenv
 
+load_dotenv('dev.env')
 db = SQLAlchemy()
 jwt = JWTManager()
 ph = PasswordHasher()
