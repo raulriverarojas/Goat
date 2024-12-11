@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 flask-jwt-extended = "*"
 werkzeug = "*"
 argon2-cffi = "*"
+statsbombpy = "*"
 
 [dev-packages]
 
