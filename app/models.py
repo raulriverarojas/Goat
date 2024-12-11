@@ -1,5 +1,6 @@
 from app import db
-from werkzeug.security import generate_password_hash, check_password_hash
+from app import ph
+from app.passwordHelpers import PasswordHelpers
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,7 +10,10 @@ class User(db.Model):
     last_login = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        if PasswordHelpers.is_valid_password(password):
+            self.password_hash = ph.hash(password)
+            return True
+        return False
     
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return ph.verify(self.password_hash, password)

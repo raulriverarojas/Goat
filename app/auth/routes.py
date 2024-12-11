@@ -12,12 +12,12 @@ def register():
         return jsonify({"msg": "Username already exists"}), 409
     
     user = User(username=data['username'])
-    user.set_password(data['password'])
+    if user.set_password(data['password']):
+        db.session.add(user)
+        db.session.commit()
     
-    db.session.add(user)
-    db.session.commit()
-    
-    return jsonify({"msg": "User created successfully"}), 201
+        return jsonify({"msg": "User created successfully"}), 201
+    return jsonify({"msg": "Invalid password"}), 400
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
