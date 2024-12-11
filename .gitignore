@@ -1,0 +1,22 @@
+# Ignore log files
+*.log
+
+# Ignore temporary files
+temp/
+
+# Ignore environment variable files
+*.env
+!template.env
+
+*.pyc
+__pycache__/
+
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+dist/
+build/
+*.egg-info/
