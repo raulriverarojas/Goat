@@ -2,14 +2,14 @@ import re
 class PasswordHelpers:
     # Define the regex patterns
     patterns = {
-        'lowercase': r'[a-z]',
-        'uppercase': r'[A-Z]',
-        'number': r'\d',
-        'special_char': r'[ -\/:-@\[-`{-\xFF]'  # ASCII ranges: 32-47, 58-64, 91-96, 123-255
+        "lowercase": r"[a-z]",
+        "uppercase": r"[A-Z]",
+        "number": r"\d",
+        "special_char": r"[ -\/:-@\[-`{-\xFF]"  # ASCII ranges: 32-47, 58-64, 91-96, 123-255
     }
     
     # Length requirement (8+ characters)
-    valid_length = r'.{8,}'
+    valid_length = r".{8,}"
     
     
     @classmethod
@@ -30,8 +30,8 @@ class PasswordHelpers:
         Return detailed breakdown of which requirements the password meets.
         """
         return {
-            'length': bool(re.search(cls.valid_length, password)),
-            'valid_chars': bool(re.match(cls.valid_chars, password)),
+            "length": bool(re.search(cls.valid_length, password)),
+            "valid_chars": bool(re.match(cls.valid_chars, password)),
             **{name: bool(re.search(pattern, password)) 
                for name, pattern in cls.patterns.items()}
         }

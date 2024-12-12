@@ -1,7 +1,7 @@
 from app import db
 from app import ph
 from app.passwordHelpers import PasswordHelpers
-from app.signals import user_created
+from app.signals import send_verification_code
 from app import db
 from app import postmark
 
@@ -18,7 +18,9 @@ class User(db.Model):
             self.password_hash = ph.hash(password)
             return True
         return False
-    
+    def get_passwond_hash(self):
+        return self.password_hash 
+
     def check_password(self, password):
         return ph.verify(self.password_hash, password)
 
@@ -29,7 +31,7 @@ class User(db.Model):
     def save(self):
          if self.id == None:
             db.session.add(self)
-            user_created.send(self)
+            send_verification_code.send(self)
          return db.session.commit()
 
     def delete(self):

@@ -13,7 +13,8 @@ import hashlib
 db = SQLAlchemy()
 jwt = JWTManager()
 ph = PasswordHasher()
-dangerous_serializer = URLSafeTimedSerializer(Config.VERIFICATION_TOKEN_KEY, Config.VERIFICATION_TOKEN_SALT, signer_kwargs={"digest_method": hashlib.sha512})
+verification_serializer = URLSafeTimedSerializer(Config.VERIFICATION_TOKEN_KEY, Config.VERIFICATION_TOKEN_SALT, signer_kwargs={"digest_method": hashlib.sha512})
+reset_serializer = URLSafeTimedSerializer(Config.RESET_TOKEN_KEY, Config.RESET_TOKEN_SALT, signer_kwargs={"digest_method": hashlib.sha512})
 postmark = PostmarkClient(server_token=Config.POSTMARK_SERVER_TOKEN)
  
 
@@ -26,7 +27,8 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     app.ph = ph
-    app.dangerous_serializer = dangerous_serializer
+    app.verification_serializer = verification_serializer
+    app.reset_serializer = reset_serializer
     app.postmark = postmark
     
     from app.commands import init_db_command, seed_db_command
@@ -49,8 +51,8 @@ def create_app():
         # Import models here to avoid circular imports
         from app.models import User
         return {
-            'db': db,
-            'User': User,
+            "db": db,
+            "User": User,
             # Add other models or objects you want available in shell
         }
 

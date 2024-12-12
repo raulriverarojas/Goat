@@ -1,0 +1,8 @@
+Welcome to GOAT, {{name}}!
+    Thanks for joining GOAT! We're excited to have you as part of our community. To get started, please verify your email address by visiting this link:
+    {{action_url}}
+    If you need any help getting started, reply to this email.
+
+    This verification link will expire in 24 hours.
+
+    You're receiving this email because you recently created an account on Goat. If you didn't request this, please ignore this email or contact support at: {{support_url}} 
