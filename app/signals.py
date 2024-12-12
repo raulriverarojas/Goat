@@ -39,13 +39,15 @@ def send_verification_code_handler(sender, **kwargs):
     text_template = Template(text)
     final_text = text_template.render(**values)
 
-    response = postmark.emails.send(
-    From=Config.POSTMARK_SENDING_EMAIL,
-    To=sender.get_username(),
-    Subject="Validate your account on Goat",
-    HtmlBody=final_html,
-    TextBody=final_text
-    )
+    print(values['action_url'])
+
+    # response = postmark.emails.send(
+    # From=Config.POSTMARK_SENDING_EMAIL,
+    # To=sender.get_username(),
+    # Subject="Validate your account on Goat",
+    # HtmlBody=final_html,
+    # TextBody=final_text
+    # )
 
 @send_reset_password.connect
 def send_reset_password_email(sender, **kwargs):

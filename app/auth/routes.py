@@ -48,11 +48,12 @@ def validate_email():
     except Exception as e:
         return jsonify({"msg": "Invalid Token" }), 400
 
-@auth_bp.route("/request-email-verification", methods=["POST"])
+@auth_bp.route("/request-email-verification-code", methods=["POST"])
 def request_email_verification_code():
     data = request.get_json()
     user = User.query.filter_by(username=data["username"], verified=False).first()
-    send_verification_code.send(user)
+    if user:
+        send_verification_code.send(user)
     return jsonify({"msg": "If a user exists with this username, an email will be sent to this email"}), 200
 
 @auth_bp.route("/request-password-reset", methods=["POST"])
