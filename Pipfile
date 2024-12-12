@@ -11,6 +11,9 @@ werkzeug = "*"
 argon2-cffi = "*"
 statsbombpy = "*"
 python-dotenv = "*"
+postmarker = "*"
+jinja2 = "*"
+itsdangerous = "*"
 
 [dev-packages]
 

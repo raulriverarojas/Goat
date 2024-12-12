@@ -6,11 +6,17 @@ from datetime import timedelta
 from config import Config
 from argon2 import PasswordHasher
 from dotenv import load_dotenv
+from itsdangerous.url_safe import URLSafeTimedSerializer
+from postmarker.core import PostmarkClient
+import hashlib
 
-load_dotenv('dev.env')
 db = SQLAlchemy()
 jwt = JWTManager()
 ph = PasswordHasher()
+dangerous_serializer = URLSafeTimedSerializer(Config.VERIFICATION_TOKEN_KEY, Config.VERIFICATION_TOKEN_SALT, signer_kwargs={"digest_method": hashlib.sha512})
+postmark = PostmarkClient(server_token=Config.POSTMARK_SERVER_TOKEN)
+ 
+
 
 def create_app():
     app = Flask(__name__)
@@ -20,6 +26,8 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     app.ph = ph
+    app.dangerous_serializer = dangerous_serializer
+    app.postmark = postmark
     
     from app.commands import init_db_command, seed_db_command
     app.cli.add_command(init_db_command)
