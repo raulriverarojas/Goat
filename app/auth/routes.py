@@ -23,11 +23,14 @@ def login():
     data = request.get_json()
     user = User.query.filter_by(username=data['username']).first()
     
-    if user and user.check_password(data['password']):
-        access_token = create_access_token(identity=user.username)
-        return jsonify({"access_token": access_token}), 200
-    
+    if user: 
+        if not user.verified:
+            return jsonify({"msg": "Please verify your account to be able to log in"}), 401
+        if user.check_password(data['password']):
+            access_token = create_access_token(identity=user.username)
+            return jsonify({"access_token": access_token}), 200
     return jsonify({"msg": "Invalid credentials"}), 401
+
 @auth_bp.route('/validate', methods=['POST'])
 def validate_email():
     data = request.get_json()
