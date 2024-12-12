@@ -30,8 +30,8 @@ def send_verification_code_handler(sender, **kwargs):
     text = load_template("verify_email_template.txt")
 
     values = {
-    "name": sender.username,
-    "action_url": Config.FRONTEND+"/verify/"+verification_serializer.dumps(sender.username),
+    "name": sender.get_username(),
+    "action_url": Config.FRONTEND+"/verify/"+verification_serializer.dumps(sender.get_username()),
     "support_email": Config.SUPPORT_EMAIL,
     }
     html_template = Template(html)
@@ -41,7 +41,7 @@ def send_verification_code_handler(sender, **kwargs):
 
     response = postmark.emails.send(
     From=Config.POSTMARK_SENDING_EMAIL,
-    To=sender.username,
+    To=sender.get_username(),
     Subject="Validate your account on Goat",
     HtmlBody=final_html,
     TextBody=final_text
@@ -53,8 +53,8 @@ def send_reset_password_email(sender, **kwargs):
     text = load_template("reset_password_template.txt")
 
     values = {
-    "name": sender.username,
-    "action_url": Config.FRONTEND+"/reset/"+reset_serializer.dumps((sender.username, reset_serializer.dumps(sender.username, salt=sender.password_hash))),
+    "name": sender.get_username(),
+    "action_url": Config.FRONTEND+"/reset/"+reset_serializer.dumps((sender.get_username(), reset_serializer.dumps(sender.get_username(), salt=sender.get_password_hash()))),
     "support_email": Config.SUPPORT_EMAIL,
     }
     html_template = Template(html)
@@ -64,7 +64,7 @@ def send_reset_password_email(sender, **kwargs):
     print(values['action_url'])
     # response = postmark.emails.send(
     # From=Config.POSTMARK_SENDING_EMAIL,
-    # To=sender.username,
+    # To=sender.get_username(),
     # Subject="Reset your password for Goat",
     # HtmlBody=final_html,
     # TextBody=final_text

@@ -1,6 +1,6 @@
 from app import db
 from app import ph
-from app.passwordHelpers import PasswordHelpers
+from app.password_helpers import PasswordHelpers
 from app.signals import send_verification_code
 from app import db
 from app import postmark
@@ -18,8 +18,12 @@ class User(db.Model):
             self.password_hash = ph.hash(password)
             return True
         return False
-    def get_passwond_hash(self):
+
+    def get_password_hash(self):
         return self.password_hash 
+
+    def get_username(self):
+        return self.username
 
     def check_password(self, password):
         return ph.verify(self.password_hash, password)
