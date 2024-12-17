@@ -15,6 +15,9 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY") or "jwt-secret-key"
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_TOKEN_LOCATION = ['cookies']
+    JWT_COOKIE_SECURE = False  # Required for HTTPS
+    JWT_COOKIE_SAMESITE = 'None'  # Re
     POSTMARK_SENDING_EMAIL = os.getenv("POSTMARK_SENDING_EMAIL") or "your-sending-email@domain.com"
     POSTMARK_SERVER_TOKEN = os.getenv("POSTMARK_SERVER_TOKEN") or "POSTMARK_API_TEST"
     SUPPORT_EMAIL= os.getenv("SUPPORT_EMAIL") or "support@domain"

@@ -29,6 +29,7 @@ def login():
                 return jsonify({"msg": "Please verify your account to be able to log in"}), 401
             if user.check_password(data["password"]):
                 access_token = create_access_token(identity=user.get_username())
+                set_access_cookies(response, access_token)
                 return jsonify({"access_token": access_token}), 200
     except Exception as e:
         return jsonify({"msg": "Invalid credentials"}), 401

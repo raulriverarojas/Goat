@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from itsdangerous.url_safe import URLSafeTimedSerializer
 from postmarker.core import PostmarkClient
 import hashlib
+from flask_cors import CORS
 
 db = SQLAlchemy()
 jwt = JWTManager()
@@ -55,5 +56,12 @@ def create_app():
             "User": User,
             # Add other models or objects you want available in shell
         }
+
+    CORS(app, 
+     supports_credentials=True,
+     origins=[Config.FRONTEND],
+     allow_headers=["Content-Type", "Authorization"],
+     expose_headers=["Access-Control-Allow-Credentials"],
+     methods=["GET", "POST", "OPTIONS"])
 
     return app
