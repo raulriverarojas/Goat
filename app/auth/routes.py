@@ -8,15 +8,15 @@ from app import verification_serializer, reset_serializer
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    
-    if User.query.filter_by(username=data["username"]).first():
-        return jsonify({"msg": "Username already exists"}), 409
-    
-    user = User(username=data["username"])
-    if user.set_password(data["password"]):
-        user.save()
-        return jsonify({"msg": "User created successfully"}), 201
-    return jsonify({"msg": "Invalid password"}), 400
+    if "username" in data and "password" in data:
+        if User.query.filter_by(username=data["username"]).first():
+            return jsonify({"msg": "Username already exists"}), 409
+        
+        user = User(username=data["username"])
+        if user.set_password(data["password"]):
+            user.save()
+            return jsonify({"msg": "User created successfully"}), 201
+    return jsonify({"msg": "Invalid Credentials"}), 400
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
