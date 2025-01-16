@@ -28,17 +28,3 @@ def get_match_shots():
 
     return jsonify({"msg": "Match not found"}), 404
 
-@statsbomb_bp.route("/passes", methods=["GET"])
-@jwt_required()
-def get_match_shots():
-    match_id = request.args.get('match')
-    filter = {"id": 5503, "name":"Lionel Andrés Messi Cuccittini"}
-    if match_id:
-        data = sb.events(match_id=match_id, split=True)
-        shots = data["passes"]
-        messi_shots = shots[shots["player"] == "Lionel Andrés Messi Cuccittini"]
-        messi_shots_formatted = messi_shots[["id", "timestamp", "location", "shot_statsbomb_xg", "shot_end_location", "shot_outcome", "shot_body_part", "shot_type", "under_pressure", "shot_one_on_one"]]
-        
-        return messi_shots_formatted.to_json(indent=4) 
-
-    return jsonify({"msg": "Match not found"}), 404
